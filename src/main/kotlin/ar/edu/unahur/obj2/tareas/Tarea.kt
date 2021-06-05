@@ -2,7 +2,7 @@ package ar.edu.unahur.obj2.tareas
 
 class Tarea (val horasEstimadas : Int,val costoDeInfraestructura : Int,val responsable: Responsable) {
     fun horasNecesariasParaFinalizar() : Int {
-        this.horasEstimadas / responsable.cantDeEmpleados()
+       return this.horasEstimadas / responsable.cantDeEmpleados()
     }
     fun costoResponsable () = responsable.cuantoCobraPorHora * horasEstimadas
     //fun costoTotalDeEmpleados () =

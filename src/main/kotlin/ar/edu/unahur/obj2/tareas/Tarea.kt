@@ -1,13 +1,13 @@
 package ar.edu.unahur.obj2.tareas
 
-class Tarea (val horasEstimadas : Int,val costoDeInfraestructura : Int,val responsable: Responsable) {
-    fun horasNecesariasParaFinalizar() : Int {
-       return this.horasEstimadas / responsable.cantDeEmpleados()
-    }
+class Tarea (val horasEstimadas : Int,val costoDeInfraestructura : Double, val responsable: Responsable) {
+
+    fun horasNecesariasParaFinalizar() = this.horasEstimadas / responsable.cantDeEmpleados()
+
     fun costoResponsable () = responsable.cuantoCobraPorHora * horasEstimadas
-    //fun costoTotalDeEmpleados () =
-    fun costoPorEmpleado () = responsable.empleados.map { it.cuantoCobraPorHora }.forEach{a -> a * this.horasNecesariasParaFinalizar()}
-    fun costoTotalInfraestructura () = costoResponsable() + costoDeInfraestructura
+    fun costoTotalDeEmpleados () = this.costoPorEmpleados().sum()
+    fun costoPorEmpleados() = responsable.empleados.map { it.cuantoCobraPorHora *  this.horasNecesariasParaFinalizar() }
+    fun costoTotalInfraestructura () = costoResponsable() + costoDeInfraestructura + this.costoTotalDeEmpleados()
 
 
 }

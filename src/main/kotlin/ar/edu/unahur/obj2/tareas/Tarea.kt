@@ -10,7 +10,7 @@ class Tarea (val horasEstimadas : Int,val costoDeInfraestructura : Double, val r
     fun costoTotalTarea () = costoResponsable() + costoDeInfraestructura + this.costoTotalDeEmpleados()
 
     fun nominaDeEmpleados(): MutableList<Empleado> {
-        var nomina = mutableListOf<Empleado>(responsable)
+        val nomina = mutableListOf<Empleado>(responsable)
         nomina.addAll(responsable.empleados)
         return nomina
     }

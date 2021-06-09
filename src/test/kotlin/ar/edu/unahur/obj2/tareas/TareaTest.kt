@@ -70,5 +70,17 @@ class TareaTest : DescribeSpec({
         tareaSimple3.horasNecesariasParaFinalizar() shouldBe 30
       }
     }
+    describe("Req: 3 costo de una tarea con 1 responsable y varios empleados") {
+
+      it("una tarea que lleva 10 horas finalizar, con 5 empleados con sueldos de 20, 30, 40, 50, 60 y un costo de infraestructura de 1000 debe tener un costo final de 8000") {
+        tareaSimple1.costoTotalTarea() shouldBe 8000
+      }
+      it("una tarea que lleva 20 horas finalizar, con 4 empleados, con sueldos de 70, 80, 90, 100 y un costo de infraestructura de 1500 debe tener un costo final de 20300") {
+        tareaSimple2.costoTotalTarea() shouldBe 20300
+      }
+      it("una tarea que lleva 30 horas finalizar, con 3 empleados con sueldos de 110, 120, 130 y un costo de infraestructura de 2000 debe tener un costo final de 31700") {
+        tareaSimple3.costoTotalTarea() shouldBe 31700
+      }
+    }
   }
 })

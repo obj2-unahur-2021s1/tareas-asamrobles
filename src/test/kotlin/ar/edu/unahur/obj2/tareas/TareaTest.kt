@@ -29,11 +29,24 @@ class TareaTest : DescribeSpec({
     val responsable100 = Responsable(100.0, mutableListOf(empleado20p, empleado30p, empleado40p, empleado50p, empleado60p))
     val responsable150 = Responsable(150.0, mutableListOf(empleado70p, empleado80p, empleado90p, empleado100p))
     val responsable200 = Responsable(200.0, mutableListOf(empleado120p, empleado130p, empleado140p))
+    val responsable300 = Responsable(300.0, mutableListOf())
+    val responsable350 = Responsable(350.0, mutableListOf())
 
     //tareas comunes
     val tareaSimple1 = Tarea(50, 1000.0, responsable100)
     val tareaSimple2 = Tarea(80, 1500.0, responsable150)
     val tareaSimple3 = Tarea(90, 2000.0, responsable200)
+
+    //tareas de integracion
+    val tareaIntegracion2 = TareaIntegracion(responsable300)
+    val tareaIntegracion1 = TareaIntegracion(responsable350)
+
+    //Acciones
+    tareaIntegracion2.agregarSubtarea(tareaSimple2)
+    tareaIntegracion2.agregarSubtarea(tareaSimple3)
+
+    tareaIntegracion1.agregarSubtarea(tareaSimple1)
+    tareaIntegracion1.agregarSubtarea(tareaIntegracion2)
 
     describe("probando una tarea") {
 
@@ -80,6 +93,45 @@ class TareaTest : DescribeSpec({
       }
       it("una tarea que lleva 30 horas finalizar, con 3 empleados con sueldos de 110, 120, 130 y un costo de infraestructura de 2000 debe tener un costo final de 31700") {
         tareaSimple3.costoTotalTarea() shouldBe 31700
+      }
+    }
+    describe("Req 4: tereas de integracion") {
+      describe("horas necesarias para finalizar una tarea de integracion") {
+
+        it("horas necesarias para finalizar tareaIntegracion2 que son la suma de las horas que tardan tareaSimple1 y tareaSimple2 mas las horas por planificacion deben ser 55") {
+          tareaIntegracion2.horasNecesariasParaFinalizar() shouldBe 55
+        }
+        it("horas necesarias para finalizar tareaIntegracion1 que son la suma de las horas que tardan tareaSimple1 mas la suma de las subtareas de tareaIntegracion 2 mas las horas por planificacion deben ser 72") {
+          tareaIntegracion1.horasNecesariasParaFinalizar() shouldBe 72
+        }
+      }
+
+      describe("costo total de una tarea de integracion") {
+
+        it("costo de tareaIntegracion2 que es la suma de los costos de sus subtareas mas un bonus para el responsable del 3% por cada tarea de integracion debe dar 61800") {
+          tareaIntegracion2.costoTotalTarea() shouldBe 53560.0
+        }
+        it("costo de tareaIntegracion1 que es la suma de los costos de sus subtareas mas un bonus para el responsable del 3% por cada tarea de integracion debe dar 63406.8") {
+          tareaIntegracion1.costoTotalTarea() shouldBe 63406.8
+        }
+      }
+
+      describe("nomina de una tarea de integracion") {
+
+        val nominaTareaIntegracion2 = tareaSimple2.nominaDeEmpleados()
+        nominaTareaIntegracion2.addAll(tareaSimple3.nominaDeEmpleados())
+        nominaTareaIntegracion2.add(responsable300)
+
+        val nominaTareaIntegracion1 = tareaSimple1.nominaDeEmpleados()
+        nominaTareaIntegracion1.addAll(nominaTareaIntegracion2)
+        nominaTareaIntegracion1.add(responsable350)
+
+        it("la nomina de tareaIntegracion2 debe estar fomada por su responsable y por las nominas de tareaSimple2 y tareaSimple3 y sus respectivos responsables") {
+          tareaIntegracion2.nominaDeEmpleados().shouldContainExactlyInAnyOrder(nominaTareaIntegracion2)
+        }
+        it("la nomina de tareaIntegracion1 debe estar fomada por su responsable y por las nominas de tareaSimple1 y tareaIntegracion2 que a su vez se conforma de la nomina de dos subtareas simples") {
+          tareaIntegracion1.nominaDeEmpleados().shouldContainExactlyInAnyOrder(nominaTareaIntegracion1)
+        }
       }
     }
   }

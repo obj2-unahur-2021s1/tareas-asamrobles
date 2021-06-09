@@ -58,5 +58,17 @@ class TareaTest : DescribeSpec({
           mutableListOf(empleado120p, empleado130p, empleado140p, responsable200))
       }
     }
+    describe("Req 2: horas necesarias para finalizar una tarea comun") {
+
+      it("una tarea que tiene un tiempo estimado de 50 horas y 5 empleados debe finalizar en 10 horas") {
+        tareaSimple1.horasNecesariasParaFinalizar() shouldBe 10
+      }
+      it("una tarea que tiene un tiempo estimado de 80 horas y 4 empleados debe finalizar en 20 horas") {
+        tareaSimple2.horasNecesariasParaFinalizar() shouldBe 20
+      }
+      it("una tarea que tiene un tiempo estimado de 90 horas y 3 empleados debe finalizar en 30 horas") {
+        tareaSimple3.horasNecesariasParaFinalizar() shouldBe 30
+      }
+    }
   }
 })
